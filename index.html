@@ -1,148 +1,106 @@
 <!DOCTYPE html>
 <html lang="en-US">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/2.0.46/css/materialdesignicons.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/2.0.46/css/materialdesignicons.css.map" rel="stylesheet">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 
-<head>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/4.4.95/css/materialdesignicons.css"
-        integrity="sha256-lWpJZLAHZOCURVO4tz/qd18kGxO18N90hFgDF49utEg=" crossorigin="anonymous" />
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
-
-
-    <script src="index.js"></script>
-</head>
-
+<script src="index.js"></script>
+<script src="dataGrid.js"></script>
 <body ng-app="app" class="container-fluid">
-
-    <div ng-controller="appController">
-        <p>Name : <input type="text" ng-model="name"></p>
-        <h1>Hello {{name}}</h1>
-        <!-- Example single danger button -->
-
-        <div class="card ">
-            <div class="card-header">
-                <h5 class="card-title">Students</h5>
-            </div>
-
-            <!-- <div class="card-body"></div> -->
-            <div class="">
-                <table class="table table-sm table-hover table-bordered">
-                    <thead class="thead-dark-gray card-header">
-                        <tr></tr>
-                        <tr>
-                            <th ng-click="setSortColumn('id')">ID</th>
-                            <th ng-click="setSortColumn('firstname')">Firstname</th>
-                            <th ng-click="setSortColumn('lastname')">Lastname</th>
-                            <th ng-click="setSortColumn('age')">Age</th>
-                            <th>
-                                <span class="mdi mdi-24px mdi-apps"></span>
-                            </th>
-                        </tr>
-                        <tr>
-                            <th><input class="form-control form-control-sm" type="text" ng-model="filter.id"></th>
-                            <th><input class="form-control form-control-sm" type="text" ng-model="filter.firstname">
-                            </th>
-                            <th><input class="form-control form-control-sm" type="text" ng-model="filter.lastname"></th>
-                            <th><input class="form-control form-control-sm" type="text" ng-model="filter.age"></th>
-                        </tr>
-                    </thead>
-
-                    <tr ng-repeat="student in students | filter : filter | orderBy : sort.column : sort.reverse">
-                        <td>{{ student.id }}</td>
-                        <td>{{ student.firstname }}</td>
-                        <td>{{ student.lastname }}</td>
-                        <td>{{ student.age }}</td>
-                        <td>&nbsp;
-                            <span class="mdi mdi-24px mdi-table-edit"></span>
-                            &nbsp;&nbsp;
-                            <span class="mdi mdi-24px mdi-delete"></span>
-                        </td>
-                        <!-- <td><a ng-click="editRow(student.id)" href="#">Edit</a> | <a href="#">Delete</a></td> -->
-                    </tr>
-                </table>
-            </div>
-            <div class="card-footer">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-end">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-
-        <!-- <div class="card">
-
-    <div class="card-header">
-
-      <div class="row">
-
-        <div ng-click="setSortColumn('id')" class="col-lg-3">ID</div>
-
-        <div ng-click="setSortColumn('firstname')" class="col-lg-3">Firstname</div>
-
-        <div ng-click="setSortColumn('lastname')" class="col-lg-3">Lastname</div>
-
-        <div ng-click="setSortColumn('age')" class="col-lg-3">Age</div>
-
+  <!-- grid-columns="['id','firstname','lastname','age']"  -->
+<div ng-controller="appController">
+  <!-- <p>Name : <input type="text" ng-model="name"></p> -->
+  <!-- <h1>Hello {{name}}</h1> -->
+  <datagrid grid-title="Students" 
+        grid-data="students" 
+        grid-columns="[
+                        {key:'id', caption:'ID', dataType: 'number'},
+                        {key:'firstname', caption:'First Name', dataType: 'string'},
+                        {key:'lastname', caption:'Last Name', dataType: 'string'},
+                        {key:'age', caption:'Age', dataType: 'number'},
+                        {key: 'active', caption: 'Status', dataType: 'fixedCombo', comboData: [{code: 'Y', desc: 'Active'}, {code: 'N', desc: 'In-Active'} ]}
+                        ]" 
+        show-border="true">
+  </datagrid>
+  <!-- <div class="card ">
+      <div class="card-header">
+          <h5 class="card-title">Students</h5>
       </div>
-
-    </div>
-
-      <div class="card-body">
-
-          <div class="row" ng-repeat="student in students | filter : filter | orderBy : sort.column : sort.reverse">
-
-              <div class="col-lg-3">{{ student.id }}</div>
-
-              <div class="col-lg-3">{{ student.firstname }}</div>
-
-              <div class="col-lg-3">{{ student.lastname }}</div>
-
-              <div class="col-lg-3">{{ student.age }}</div>
-
-            </div>
-
- 
-
-         
-
+      
+      <div class="card-body"></div>
+      <div class="">
+          <table class="table table-sm table-hover table-bordered">
+              <thead class="thead-dark-gray card-header">
+                <tr></tr>
+                <tr>
+                  <th ng-click="setSortColumn('id')">ID</th>
+                  <th ng-click="setSortColumn('firstname')">Firstname</th>
+                  <th ng-click="setSortColumn('lastname')">Lastname</th>
+                  <th ng-click="setSortColumn('age')">Age</th>
+                  <th></th>
+                </tr>
+                <tr>
+                  <th><input class="form-control form-control-sm" type="text" ng-model="filter.id"></th>
+                  <th><input class="form-control form-control-sm" type="text" ng-model="filter.firstname"></th>
+                  <th><input class="form-control form-control-sm" type="text" ng-model="filter.lastname"></th>
+                  <th><input class="form-control form-control-sm" type="text" ng-model="filter.age"></th>
+                  </tr>
+              </thead>
+              <tr ng-repeat="student in students | filter : filter | orderBy : sort.column : sort.reverse">
+                <td>{{ student.id }}</td>
+                <td>{{ student.firstname }}</td>
+                <td>{{ student.lastname }}</td>
+                <td>{{ student.age }}</td>
+                <td ><a ng-click="editRow(student.id)" href="#">Edit</a> | <a  href="#">Delete</a></td>
+              </tr>
+          </table>
       </div>
-
       <div class="card-footer">
-
-     
-
-        </div>
-
+          <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-end">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </nav>
+      </div>
   </div> -->
 
-
-
+  <!-- <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div ng-click="setSortColumn('id')" class="col-lg-3">ID</div>
+        <div ng-click="setSortColumn('firstname')" class="col-lg-3">Firstname</div>
+        <div ng-click="setSortColumn('lastname')" class="col-lg-3">Lastname</div>
+        <div ng-click="setSortColumn('age')" class="col-lg-3">Age</div>
+      </div>
     </div>
+      <div class="card-body">
+          <div class="row" ng-repeat="student in students | filter : filter | orderBy : sort.column : sort.reverse">
+              <div class="col-lg-3">{{ student.id }}</div>
+              <div class="col-lg-3">{{ student.firstname }}</div>
+              <div class="col-lg-3">{{ student.lastname }}</div>
+              <div class="col-lg-3">{{ student.age }}</div>
+            </div>
 
 
+          
+      </div>
+      <div class="card-footer">
+      
+        </div>
+  </div> -->
+  
+</div>
 
 </body>
-
 </html>
