@@ -4,7 +4,8 @@ app.directive('datagrid', function($compile) {
         gridTitle: '@',
         gridData: '=?',
         gridColumns: '=?',
-        showBorder: '=?'
+        showBorder: '=?',
+        gridRowModel: "=?",
       },
       restrict: 'E',
       replace: true,
@@ -58,6 +59,27 @@ app.directive('datagrid', function($compile) {
             console.log(rowModal);
           }
           $scope.isNewRow = false;
+          // $scope.toast('record saved ', false);
+        }
+
+        $scope.bindGridRowModel = function(rowModel){
+          $scope.gridRowModel = rowModel;
+        }
+
+        $scope.toast = function(message, showHeader){
+          return '<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">' +
+          '<div ng-show="showHeader" class="toast-header">' +
+            '<img src="..." class="rounded mr-2" alt="...">' +
+            '<strong class="mr-auto">Bootstrap</strong>' +
+            '<small>11 mins ago</small>' +
+            '<button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">' +
+              '<span aria-hidden="true">&times;</span>' +
+            '</button>' +
+          '</div>' +
+          '<div class="toast-body">' +
+            '{{message}}' +
+          '</div>' +
+        '</div>';
         }
   
         $scope.getTemplate = function () {
@@ -105,7 +127,7 @@ app.directive('datagrid', function($compile) {
                  '         </tr>' +
                  '      </thead>' +
                  '   <tbody>' +
-                 '      <tr ng-repeat="data in gridData | filter:filter | orderBy : sort.column : sort.reverse" ng-init="isRowEdit = false">' +
+                 '      <tr ng-repeat="data in gridData | filter:filter | orderBy : sort.column : sort.reverse" ng-init="isRowEdit = false" ng-click="bindGridRowModel(data)">' +
                  '         <td ng-repeat="column in gridColumns">' +
                  '            <span ng-show="isRowEdit === false">{{data[column.key]}}</span>' +
                  '            <input ng-if="column.dataType === \'string\'" ng-show="isRowEdit === true" class="form-control form-control-sm" type="text" name="column.key" ng-model="data[column.key]">' +
