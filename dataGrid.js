@@ -6,6 +6,8 @@ app.directive('datagrid', function($compile) {
         gridColumns: '=?',
         showBorder: '=?',
         gridRowModel: "=?",
+        selectionGrid: '=?',
+        editorColumnWidth: '=?'
       },
       restrict: 'E',
       replace: true,
@@ -21,6 +23,8 @@ app.directive('datagrid', function($compile) {
         $scope.sort.column = []
         $scope.isNewRow = false;
         $scope.isSearchEnabled = false;
+        $scope.selectedRow = {};
+        $scope.gridRowModel = {};
         $scope.setSortColumn = function (sort) {
           if(!$scope.sort.isSortEnabled) return;
           $scope.sort.column = sort
@@ -63,7 +67,18 @@ app.directive('datagrid', function($compile) {
         }
 
         $scope.bindGridRowModel = function(rowModel){
-          $scope.gridRowModel = rowModel;
+
+          $scope.gridRowModel.data = rowModel;
+          // $scope.selectedRow.data = rowModel;
+          // $scope.selectedRow.columns = $scope.gridColumns;
+          $scope.gridRowModel.columns = $scope.gridColumns;
+        }
+
+        if(!$scope.selectionGrid){
+          $scope.selectionGrid = false;
+        }
+        if(!$scope.editorColumnWidth){
+          $scope.editorColumnWidth = 8;
         }
 
         $scope.toast = function(message, showHeader){
@@ -120,7 +135,7 @@ app.directive('datagrid', function($compile) {
                  '               <input ng-if="column.dataType === \'number\'" class="form-control form-control-sm" type="number" name="column.key" ng-model="filter[column.key]">' +
                  '               <select ng-if="column.dataType === \'fixedCombo\'" class="form-control form-control-sm" name="column.key" ng-model="filter[column.key]" ng-options="opt as opt.desc for opt in column.comboData"></select>' +
                  '            </th>' +
-                 '            <th style="width:8%" scope="col" ng-repeat-end>' +
+                 '            <th style="width:{{editorColumnWidth}}%" scope="col" ng-repeat-end>' +
                  '               &nbsp;&nbsp;&nbsp;&nbsp;'+
                  '               <span class="mdi mdi-window-close" ng-click="toggleSearch()"></span>' +
                  '            </th>' +
@@ -134,7 +149,7 @@ app.directive('datagrid', function($compile) {
                  '            <input ng-if="column.dataType === \'number\'" ng-show="isRowEdit === true" class="form-control form-control-sm" type="number" name="column.key" ng-model="data[column.key]">' +
                  '            <select ng-if="column.dataType === \'fixedCombo\'" ng-show="isRowEdit === true" class="form-control form-control-sm" name="column.key" ng-model="data[column.key]" ng-options="opt as opt.desc for opt in column.comboData"></select>' +
                  '         </td>' +
-                 '         <td style="width:8%" ng-repeat-end>' +
+                 '         <td style="width:{{editorColumnWidth}}%" ng-repeat-end>' +
                  '            <span ng-show="isRowEdit === false" class="mdi mdi-table-edit" ng-click="isRowEdit = !isRowEdit"></span>' +
                  '             &nbsp;&nbsp;' +
                  '            <span ng-show="isRowEdit === false" class="mdi mdi-delete" ng-click="deleteRow($index)"></span>' +

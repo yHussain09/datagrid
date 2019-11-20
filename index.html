@@ -12,10 +12,12 @@
 <script src="dataForm.js"></script>
 <body ng-app="app" class="container-fluid">
   <!-- grid-columns="['id','firstname','lastname','age']"  -->
-<div ng-controller="appController">
+  <div class="container-fluid">
+<div class="row" ng-controller="appController">
   <!-- <p>Name : <input type="text" ng-model="name"></p> -->
   <!-- <h1>Hello {{name}}</h1> -->
-  <datagrid grid-title="Students" 
+  <div class="col-lg-7">
+    <datagrid grid-title="Students" 
         grid-data="students" 
         grid-row-model="studentModel"
         grid-columns="[
@@ -25,9 +27,27 @@
                         {key:'age', caption:'Age', dataType: 'number'},
                         {key: 'active', caption: 'Status', dataType: 'fixedCombo', comboData: [{code: 'Y', desc: 'Active'}, {code: 'N', desc: 'In-Active'} ]}
                         ]" 
-        show-border="true">
+        show-border="true"
+        selection-grid="true"
+        editor-column-width="12">
   </datagrid>
-  <dataform show-header="true" form-title="Sudent Entry Form" form-model="studentModel"></dataform>
+  </div>
+  
+  <!-- {{studentModel}} -->
+  <div class="col-lg-5">
+    <dataform show-header="true" 
+        form-title="Sudent Entry Form" 
+        form-model="studentModel"
+        form-fields="[
+                      {key:'id', caption:'ID', dataType: 'number', placeholder: 'ID here'},
+                      {key:'firstname', caption:'First Name', dataType: 'string'},
+                      {key:'lastname', caption:'Last Name', dataType: 'string'},
+                      {key:'age', caption:'Age', dataType: 'number'},
+                      {key: 'active', caption: 'Status', dataType: 'fixedCombo', comboData: [{code: 'Y', desc: 'Active'}, {code: 'N', desc: 'In-Active'} ]}
+                    ]">
+  </dataform>
+  </div>
+</div>
   <!-- <div class="card ">
       <div class="card-header">
           <h5 class="card-title">Students</h5>
