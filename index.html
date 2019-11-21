@@ -10,6 +10,7 @@
 <script src="index.js"></script>
 <script src="dataGrid.js"></script>
 <script src="dataForm.js"></script>
+<script src="dataService.js"></script>
 <body ng-app="app" class="container-fluid">
   <!-- grid-columns="['id','firstname','lastname','age']"  -->
   <div class="container-fluid">
@@ -38,6 +39,7 @@
     <dataform show-header="true" 
         form-title="Sudent Entry Form" 
         form-model="studentModel"
+        end-point="/students"
         form-fields="[
                       {key:'id', caption:'ID', dataType: 'number', placeholder: 'ID here'},
                       {key:'firstname', caption:'First Name', dataType: 'string'},

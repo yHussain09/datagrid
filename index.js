@@ -1,11 +1,15 @@
 'use strict'
 
-var app = angular.module('app', [])
+var app = angular.module('app', [
+  // 'dataService'
+]);
 
-app.controller('appController', function ($scope) {
+app.controller('appController', function ($scope, dataService) {
   const self = $scope
 
   console.log(self)
+  console.log(dataService.getData('asadd', 2, 4, {a: 'a'}));
+
   $scope.search = {}
   
   // $scope.sort.columns = [];

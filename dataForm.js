@@ -6,7 +6,8 @@ app.directive('dataform', function($compile) {
         showHeader: '=?',
         formFields: '=?',
         labelWidth: '=?',
-        fieldWidth: '=?'
+        fieldWidth: '=?',
+        endPoint: '@?'
       },
       restrict: 'E',
       replace: true,
@@ -35,10 +36,26 @@ app.directive('dataform', function($compile) {
           }
           $scope.isNewRow = false;
           // $scope.toast('record saved ', false);
-        }
+        };
 
         if(!$scope.labelWidth)$scope.labelWidth = 4;
         if(!$scope.fieldWidth)$scope.fieldWidth = 8;
+
+        $scope.newRecord = function(model){
+            model.data = {};
+        };
+
+        $scope.saveRecord = function(){
+          console.log($scope.endPoint);
+        };
+
+        $scope.updateRecord = function(){
+          console.log($scope.endPoint);
+        };
+
+        $scope.deleteRecord = function(){
+          console.log($scope.endPoint);
+        };
 
         $scope.getTemplate = function () {
           return '<div class="card">' +
@@ -63,7 +80,7 @@ app.directive('dataform', function($compile) {
                  '        </form>' +
                  '   </div>' +
                  '   <div class="card-footer">' +
-                 '      <button ng-click="newRecord()" class="btn btn-outline-primary btn-sm">New</button>' +
+                 '      <button ng-click="newRecord(formModel)" class="btn btn-outline-primary btn-sm">New</button>' +
                  '      <button ng-click="saveRecord(formModel.data)" class="btn btn-outline-success btn-sm">Save</button>' +
                  '      <button ng-click="updateRecord(formModel.data)" class="btn btn-outline-info btn-sm">Update</button>' +
                  '      <button ng-click="deleteRecord(formModel.data)" class="btn btn-outline-danger btn-sm">Delete</button>' +
