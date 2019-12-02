@@ -10,7 +10,7 @@ app.service('dataService', function ($http, $q) {
         loadGridData: loadGridData,
         loadGridDataPage: loadGridDataPage,
         loadComboData: loadComboData,
-        loadChildComboData: loadChildComboData,
+        // loadChildComboData: loadChildComboData,
     };
 
     return ds;
