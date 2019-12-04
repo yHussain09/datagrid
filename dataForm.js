@@ -65,7 +65,10 @@ app.directive('dataform', function($compile) {
                  '          <div class="form-group row" ng-repeat="field in formFields">' +
                  '            <label class="col-form-label-sm col-sm-{{labelWidth}}" for="{{field.key}}">{{field.caption}}</label>' +
                  '            <div class="col-sm-{{fieldWidth}}">' +
-                 '              <input id="{{field.key}}" type="{{field.dataType}}" ng-model="formModel.data[field.key]" class="form-control form-control-sm" placeholder="{{field.placeholder}}">' +
+                //  '              <input id="{{field.key}}" type="{{field.dataType}}" ng-model="formModel.data[field.key]" class="form-control form-control-sm" placeholder="{{field.placeholder}}">' +
+                 '               <input id="{{field.key}}" ng-if="field.dataType === \'string\'" class="form-control form-control-sm" type="text" name="field.key" ng-model="formModel.data[field.key]" placeholder="{{field.placeholder}}">' +
+                 '               <input id="{{field.key}}" ng-if="field.dataType === \'number\'" class="form-control form-control-sm" type="number" name="field.key" ng-model="formModel.data[field.key]" placeholder="{{field.placeholder}}">' +
+                 '               <select id="{{field.key}}" ng-if="field.dataType === \'fixedCombo\'" class="form-control form-control-sm" name="field.key" ng-model="formModel.data[field.key]" ng-options="opt as opt.desc for opt in field.comboData" placeholder="{{field.placeholder}}"></select>' +
                  '            </div>' +
                 //  '            <small id="emailHelp" class="form-text text-muted">We\'ll never share your email with anyone else.</small>' +
                  '          </div>' +
