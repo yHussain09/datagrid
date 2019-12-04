@@ -6,7 +6,7 @@ app.directive('datagrid', function($compile) {
         gridColumns: '=?',
         showBorder: '=?',
         gridRowModel: "=?",
-        selectionGrid: '=?',
+        selectable: '=?',
         editorColumnWidth: '=?'
       },
       restrict: 'E',
@@ -74,12 +74,16 @@ app.directive('datagrid', function($compile) {
           $scope.gridRowModel.columns = $scope.gridColumns;
         }
 
-        if(!$scope.selectionGrid){
-          $scope.selectionGrid = false;
+        if(!$scope.selectable){
+          $scope.selectable = false;
         }
         if(!$scope.editorColumnWidth){
           $scope.editorColumnWidth = 8;
         }
+
+        $scope.previousPage = function(){};
+
+        $scope.nextPage = function(){};
 
         $scope.toast = function(message, showHeader){
           return '<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">' +
@@ -103,6 +107,11 @@ app.directive('datagrid', function($compile) {
                  '   <table ng-class="(showBorder === true) ? \'table table-sm table-hover table-bordered\' : \'table table-sm table-hover\'">' +
                  '      <thead class="thead-light">' +
                  '         <tr>' +
+                 '            <th ng-if="selectable">' +
+                 '               <div class="checkbox">' +
+                 '                  <label><input type="checkbox" value=""></label>' +
+                 '               </div>' +
+                 '            </th>' +
                  '            <th scope="col" ng-repeat="column in gridColumns" ng-click="setSortColumn(column.key)">{{column.caption}}' +
                  '               <spna ng-show="sort.isSortEnabled">' +
                  '                  <span ng-show="sort.reverse === false && sort.column === column.key" class="mdi mdi-arrow-up" style="float: right;"></span>' +
@@ -143,6 +152,11 @@ app.directive('datagrid', function($compile) {
                  '      </thead>' +
                  '   <tbody>' +
                  '      <tr ng-repeat="data in gridData | filter:filter | orderBy : sort.column : sort.reverse" ng-init="isRowEdit = false" ng-click="bindGridRowModel(data)">' +
+                 '         <td ng-if="selectable">' +
+                 '            <div class="checkbox">' +
+                 '               <label><input type="checkbox" value=""></label>' +
+                 '            </div>' +
+                 '         </td>' +
                  '         <td ng-repeat="column in gridColumns">' +
                  '            <span ng-show="isRowEdit === false">{{data[column.key]}}</span>' +
                  '            <input ng-if="column.dataType === \'string\'" ng-show="isRowEdit === true" class="form-control form-control-sm" type="text" name="column.key" ng-model="data[column.key]">' +
@@ -159,25 +173,30 @@ app.directive('datagrid', function($compile) {
                  '          </td>' +
                  '      </tr>' +
                  '   </tbody>' +
+                //  '   <tfoot class="thead-light">' +
+                //  '      <tr>' +
+                //  '         <td colspan="{{gridColumns.length + 1}}">AA</td>' +
+                //  '      </tr>' +
+                //  '   </tfoot>' +
                  '   </table>' +
                  '   <div class="card-footer">' +
-                 '<nav aria-label="Page navigation example">' +
-                 '<ul class="pagination">' +
-                   '<li class="page-item">' +
-                     '<a class="page-link" href="#" aria-label="Previous">' +
-                       '<span aria-hidden="true">&laquo;</span>' +
-                     ' </a>' +
-                   ' </li>' +
-                   '<li class="page-item"><a class="page-link" href="#">1</a></li>' +
-                   '<li class="page-item"><a class="page-link" href="#">2</a></li>' +
-                   '<li class="page-item"><a class="page-link" href="#">3</a></li>' +
-                   '<li class="page-item">' +
-                     '<a class="page-link" href="#" aria-label="Next">' +
-                       '<span aria-hidden="true">&raquo;</span>' +
-                     '</a>' +
-                   '</li>' +
-                 '</ul>' +
-               '</nav>' +
+                 '      <nav aria-label="Page navigation example">' +
+                 '         <ul class="pagination">' +
+                 '            <li class="page-item">' +
+                 '               <a class="page-link" href="" ng-click="previousPage()" aria-label="Previous">' +
+                 '                  <span aria-hidden="true">&laquo;</span>' +
+                 '               </a>' +
+                 '            </li>' +
+                 '            <li class="page-item"><a class="page-link" href="">1</a></li>' +
+                 '            <li class="page-item"><a class="page-link" href="">2</a></li>' +
+                 '            <li class="page-item"><a class="page-link" href="">3</a></li>' +
+                 '            <li class="page-item">' +
+                 '               <a class="page-link" href="" ng-click="nextPage()" aria-label="Next">' +
+                 '                  <span aria-hidden="true">&raquo;</span>' +
+                 '               </a>' +
+                 '            </li>' +
+                 '         </ul>' +
+                 '      </nav>' +
                  '   </div>' +
                  '</div>'
         }
