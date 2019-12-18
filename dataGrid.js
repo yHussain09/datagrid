@@ -1,13 +1,16 @@
 app.directive('datagrid', function($compile) {
     return {
       scope: {
-        gridTitle: '@',
+        gridTitle: '@?',
         gridData: '=?',
         gridColumns: '=?',
         showBorder: '=?',
         gridRowModel: "=?",
         selectable: '=?',
-        editorColumnWidth: '=?'
+        editorColumnWidth: '=?',
+        gridSelectedRows: '=?',
+        pageSize: '=?',
+        serverSide: '=?'
       },
       restrict: 'E',
       replace: true,
@@ -25,6 +28,11 @@ app.directive('datagrid', function($compile) {
         $scope.isSearchEnabled = false;
         $scope.selectedRow = {};
         $scope.gridRowModel = {};
+        $scope.selectedRows = [];
+        $scope.currentPage = 0;
+        $scope.totalRecords = 18;
+        if(!$scope.pageSize)$scope.pageSize = 5;
+        $scope.totalPages = Math.floor($scope.totalRecords / $scope.pageSize) + 1;
         $scope.setSortColumn = function (sort) {
           if(!$scope.sort.isSortEnabled) return;
           $scope.sort.column = sort
@@ -46,6 +54,9 @@ app.directive('datagrid', function($compile) {
           $scope.isSearchEnabled = !$scope.isSearchEnabled;
           console.log($scope.isSearchEnabled)
         };
+        $scope.loadGrid = function(page, offSet){
+
+        };
         $scope.deleteRow = function(index){
           $scope.gridData.splice(index, 1);
         };
@@ -55,7 +66,7 @@ app.directive('datagrid', function($compile) {
             $scope.newRowData = {};
             $scope.isNewRow = !$scope.isNewRow;
         };
-        $scope.saveRow = function(rowModal, index, isNewRow){
+        $scope.saveRow = function(rowModal, index, isNewRow, isRowEditFlag){
           if(isNewRow){
             $scope.gridData.push(rowModal);
           }else{
@@ -63,14 +74,12 @@ app.directive('datagrid', function($compile) {
             console.log(rowModal);
           }
           $scope.isNewRow = false;
+          // isRowEditFlag != isRowEditFlag;
           // $scope.toast('record saved ', false);
         }
 
         $scope.bindGridRowModel = function(rowModel){
-
           $scope.gridRowModel.data = rowModel;
-          // $scope.selectedRow.data = rowModel;
-          // $scope.selectedRow.columns = $scope.gridColumns;
           $scope.gridRowModel.columns = $scope.gridColumns;
         }
 
@@ -81,9 +90,56 @@ app.directive('datagrid', function($compile) {
           $scope.editorColumnWidth = 8;
         }
 
-        $scope.previousPage = function(){};
+        $scope.onGridRowSelectionChanged = function(row){
+          if(row.selected){
+            $scope.selectedRows.push(row);
+          }else{
+            $scope.selectedRows.splice($scope.selectedRows.indexOf(row), 1);
+          }
+          $scope.gridSelectedRows = $scope.selectedRows;
+        };
 
-        $scope.nextPage = function(){};
+        $scope.onGridPageSelectionChanged = function(page){
+          
+        };
+
+        $scope.getGridColumnValue = function(column){
+          if(column.dataType === 'fixedCombo'){
+            // return 
+          }
+        }
+
+        $scope.firstPage = function(){
+          $scope.currentPage = 0;
+        };
+
+        $scope.previousPage = function(){
+          if($scope.currentPage === 0){
+            return;
+          }else{
+            $scope.currentPage = $scope.currentPage - 1;
+          }
+          console.log($scope.currentPage);
+        };
+          
+        $scope.setCurrentPage = function(currentPage){
+          $scope.currentPage = currentPage;
+        };
+
+        $scope.nextPage = function(){
+          if($scope.serverSide){
+            
+          }else{
+            if((($scope.currentPage * $scope.pageSize) + $scope.pageSize) < $scope.totalRecords){
+              $scope.currentPage = $scope.currentPage + 1;
+            }
+          }
+          console.log($scope.currentPage);
+        };
+
+        $scope.lastPage = function(){
+          $scope.currentPage = $scope.totalPages - 1;
+        };
 
         $scope.toast = function(message, showHeader){
           return '<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">' +
@@ -151,10 +207,10 @@ app.directive('datagrid', function($compile) {
                  '         </tr>' +
                  '      </thead>' +
                  '   <tbody>' +
-                 '      <tr ng-repeat="data in gridData | filter:filter | orderBy : sort.column : sort.reverse" ng-init="isRowEdit = false" ng-click="bindGridRowModel(data)">' +
+                 '      <tr ng-repeat="data in gridData | filter : filter | orderBy : sort.column : sort.reverse | limitTo : pageSize : currentPage * pageSize" ng-init="isRowEdit = false" ng-click="bindGridRowModel(data)">' +
                  '         <td ng-if="selectable">' +
                  '            <div class="checkbox">' +
-                 '               <label><input type="checkbox" value=""></label>' +
+                 '               <label><input type="checkbox" ng-model="data.selected" ng-change="onGridRowSelectionChanged(data)"></label>' +
                  '            </div>' +
                  '         </td>' +
                  '         <td ng-repeat="column in gridColumns">' +
@@ -167,37 +223,47 @@ app.directive('datagrid', function($compile) {
                  '            <span ng-show="isRowEdit === false" class="mdi mdi-table-edit" ng-click="isRowEdit = !isRowEdit"></span>' +
                  '             &nbsp;&nbsp;' +
                  '            <span ng-show="isRowEdit === false" class="mdi mdi-delete" ng-click="deleteRow($index)"></span>' +
-                 '            <span ng-show="isRowEdit === true" class="mdi mdi-content-save" ng-click="saveRow(data, false, $index)"></span>' +
+                 '            <span ng-show="isRowEdit === true" class="mdi mdi-content-save" ng-click="saveRow(data, false, $index, isRowEdit)"></span>' +
                  '             &nbsp;&nbsp;' +
                  '            <span ng-show="isRowEdit === true" class="mdi mdi-window-close" ng-click="isRowEdit = !isRowEdit"></span>' +
                  '          </td>' +
                  '      </tr>' +
                  '   </tbody>' +
-                //  '   <tfoot class="thead-light">' +
-                //  '      <tr>' +
-                //  '         <td colspan="{{gridColumns.length + 1}}">AA</td>' +
-                //  '      </tr>' +
-                //  '   </tfoot>' +
+                 '   <thead class="thead-light">' +
+                 '      <tr>' + 
+                 '         <th colspan="{{gridColumns.length + 1}}">' +
+                 '            <ul style="list-style:none;display: flex;margin: unset;float: right;">' +
+                 '              <li><span class="mdi mdi-chevron-double-left" ng-click="firstPage()"></span>&nbsp;&nbsp;<li>' +
+                 '              <li><span class="mdi mdi-chevron-left" ng-click="previousPage()"></span>&nbsp;&nbsp;<li>' +
+                 '              <li ng-repeat="page in [].constructor(totalPages) track by $index">' +
+                 '                <span ng-class="currentPage === $index ? \'mdi mdi-numeric-{{$index + 1}}-box\': \'mdi mdi-numeric-{{$index + 1}}-box-outline\'" ng-click="setCurrentPage($index)"></span>&nbsp;&nbsp;' +
+                 '              <li>' +
+                 '              <li><span class="mdi mdi-chevron-right" ng-click="nextPage()"></span>&nbsp;&nbsp;<li>' +
+                 '              <li><span class="mdi mdi-chevron-double-right" ng-click="lastPage()"></span>&nbsp;&nbsp;<li>' +
+                 '            </ul>' +
+                 '         </th>' +
+                 '      </tr>' +
+                 '   </thead>' +
                  '   </table>' +
-                 '   <div class="card-footer">' +
-                 '      <nav aria-label="Page navigation example">' +
-                 '         <ul class="pagination">' +
-                 '            <li class="page-item">' +
-                 '               <a class="page-link" href="" ng-click="previousPage()" aria-label="Previous">' +
-                 '                  <span aria-hidden="true">&laquo;</span>' +
-                 '               </a>' +
-                 '            </li>' +
-                 '            <li class="page-item"><a class="page-link" href="">1</a></li>' +
-                 '            <li class="page-item"><a class="page-link" href="">2</a></li>' +
-                 '            <li class="page-item"><a class="page-link" href="">3</a></li>' +
-                 '            <li class="page-item">' +
-                 '               <a class="page-link" href="" ng-click="nextPage()" aria-label="Next">' +
-                 '                  <span aria-hidden="true">&raquo;</span>' +
-                 '               </a>' +
-                 '            </li>' +
-                 '         </ul>' +
-                 '      </nav>' +
-                 '   </div>' +
+                //  '   <div class="card-footer">' +
+                //  '      <nav aria-label="Page navigation example">' +
+                //  '         <ul class="pagination">' +
+                //  '            <li class="page-item">' +
+                //  '               <a class="page-link" href="" ng-click="previousPage()" aria-label="Previous">' +
+                //  '                  <span aria-hidden="true">&laquo;</span>' +
+                //  '               </a>' +
+                //  '            </li>' +
+                //  '            <li class="page-item"><a class="page-link" href="">1</a></li>' +
+                //  '            <li class="page-item"><a class="page-link" href="">2</a></li>' +
+                //  '            <li class="page-item"><a class="page-link" href="">3</a></li>' +
+                //  '            <li class="page-item">' +
+                //  '               <a class="page-link" href="" ng-click="nextPage()" aria-label="Next">' +
+                //  '                  <span aria-hidden="true">&raquo;</span>' +
+                //  '               </a>' +
+                //  '            </li>' +
+                //  '         </ul>' +
+                //  '      </nav>' +
+                //  '   </div>' +
                  '</div>'
         }
       }

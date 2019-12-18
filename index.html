@@ -5,12 +5,17 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/2.0.46/css/materialdesignicons.css.map" rel="stylesheet">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.8/angular.min.js"></script>
 
+
+
+<script src="app.js"></script>
 <script src="index.js"></script>
 <script src="dataGrid.js"></script>
 <script src="dataForm.js"></script>
 <script src="dataService.js"></script>
+
 <body ng-app="app" class="container-fluid">
   <!-- grid-columns="['id','firstname','lastname','age']"  -->
   <div class="container-fluid">
@@ -21,6 +26,7 @@
     <datagrid grid-title="Students" 
         grid-data="students" 
         grid-row-model="studentModel"
+        grid-selected-rows="selectedStudents"
         grid-columns="[
                         {key:'id', caption:'ID', dataType: 'number'},
                         {key:'firstname', caption:'First Name', dataType: 'string'},
@@ -29,11 +35,13 @@
                         {key: 'active', caption: 'Status', dataType: 'fixedCombo', comboData: [{code: 'Y', desc: 'Active'}, {code: 'N', desc: 'In-Active'} ]}
                         ]" 
         show-border="true"
-        selectable="true"
+        page-size="5"
+        server-side="false"
+        selectable="false"
         editor-column-width="12">
   </datagrid>
   </div>
-  
+  <!-- {{selectedStudents}} -->
   <!-- {{studentModel}} -->
   <div class="col-lg-5">
     <dataform show-header="true" 
@@ -50,6 +58,7 @@
   </dataform>
   </div>
 </div>
+
   <!-- <div class="card ">
       <div class="card-header">
           <h5 class="card-title">Students</h5>
