@@ -14,14 +14,13 @@
 <script src="index.js"></script>
 <script src="dataGrid.js"></script>
 <script src="dataForm.js"></script>
+<script src="fixedCombo.js"></script>
 <script src="dataService.js"></script>
 
 <body ng-app="app" class="container-fluid">
-  <!-- grid-columns="['id','firstname','lastname','age']"  -->
   <div class="container-fluid">
 <div class="row" ng-controller="appController">
-  <!-- <p>Name : <input type="text" ng-model="name"></p> -->
-  <!-- <h1>Hello {{name}}</h1> -->
+  
   <div class="col-lg-7">
     <datagrid grid-title="Students" 
         grid-data="students" 
@@ -50,13 +49,48 @@
         end-point="/students"
         form-fields="[
                       {key:'id', caption:'ID', dataType: 'number', placeholder: 'ID here'},
-                      {key:'firstname', caption:'First Name', dataType: 'string'},
-                      {key:'lastname', caption:'Last Name', dataType: 'string'},
-                      {key:'age', caption:'Age', dataType: 'number'},
-                      {key: 'active', caption: 'Status', dataType: 'fixedCombo', comboData: [{code: 'Y', desc: 'Active'}, {code: 'N', desc: 'In-Active'}]}
+                      {key:'firstname', caption:'First Name', dataType: 'string', placeholder: 'First Name here'},
+                      {key:'lastname', caption:'Last Name', dataType: 'string', placeholder: 'Last Name here'},
+                      {key:'age', caption:'Age', dataType: 'number', placeholder: 'Age here'},
+                      {key: 'active', caption: 'Status', dataType: 'fixedCombo', comboData: [{code: 'Y', desc: 'Active'}, {code: 'N', desc: 'In-Active'}], placeholder: 'Select here'}
                     ]">
   </dataform>
   </div>
+  {{selectedFixedComboModelNum}}
+  <fixedcombo selected-value="selectedFixedComboModelNum"
+              change-callback="fixedComboCallback()"
+              combo-data="[
+                            {code: '1', desc: 'One'}, 
+                            {code: '2', desc: 'Tow'},
+                            {code: '3', desc: 'Three'},
+                            {code: '4', desc: 'Four'},
+                            {code: '5', desc: 'Five'},
+                            {code: '6', desc: 'Six'},
+                            {code: '7', desc: 'Seven'},
+                            {code: '8', desc: 'Eight'},
+                            {code: '9', desc: 'Nine'},
+                            {code: '10', desc: 'Ten'}
+                            ]">
+  </fixedcombo>
+  {{selectedFixedComboModelAlpha}}
+  <fixedcombo selected-value="selectedFixedComboModelAlpha"
+              change-callback="fixedComboCallback()"
+              filter-value="selectedFixedComboModelNum"
+              filter-key="filterId"
+              combo-data="[
+                            {filterId: '1', code: 'a', desc: 'A'}, 
+                            {filterId: '2', code: 'b', desc: 'B'},
+                            {filterId: '3', code: 'c', desc: 'C'},
+                            {filterId: '4', code: 'd', desc: 'D'},
+                            {filterId: '5', code: 'e', desc: 'E'},
+                            {filterId: '6', code: 'f', desc: 'F'},
+                            {filterId: '7', code: 'g', desc: 'G'},
+                            {filterId: '8', code: 'h', desc: 'H'},
+                            {filterId: '9', code: 'i', desc: 'I'},
+                            {filterId: '10', code: 'j', desc: 'J'}
+                            ]">
+  </fixedcombo>
+  {{parent-model}}
 </div>
 
   <!-- <div class="card ">

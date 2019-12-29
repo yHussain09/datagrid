@@ -43,6 +43,10 @@ app.directive('datagrid', function($compile) {
           }
           console.log($scope.sort)
         };
+        $scope.getCellValue = function(column, data){
+          console.log(column)
+          console.log(data);
+        };
         $scope.toggleSort = function(){
           if($scope.sort.isSortEnabled) 
           delete $scope.sort.column;
@@ -159,7 +163,7 @@ app.directive('datagrid', function($compile) {
   
         $scope.getTemplate = function () {
           return '<div class="card table-responsive-md">' +
-                 '   <div class="card-header" style="background-color: darkturquoise;color: white;font-weight: bold;">{{gridTitle}}</div>' +
+                 '   <div ng-show="gridTitle" class="card-header" style="background-color: darkturquoise;color: white;font-weight: bold;">{{gridTitle}}</div>' +
                  '   <table ng-class="(showBorder === true) ? \'table table-sm table-hover table-bordered\' : \'table table-sm table-hover\'">' +
                  '      <thead class="thead-light">' +
                  '         <tr>' +
@@ -186,7 +190,7 @@ app.directive('datagrid', function($compile) {
                  '            <th scope="col" ng-repeat="column in gridColumns">'  +
                  '               <input ng-if="column.dataType === \'string\'" class="form-control form-control-sm" type="text" name="column.key" ng-model="newRowData[column.key]">' +
                  '               <input ng-if="column.dataType === \'number\'" class="form-control form-control-sm" type="number" name="column.key" ng-model="newRowData[column.key]">' +
-                 '               <select ng-if="column.dataType === \'fixedCombo\'" class="form-control form-control-sm" name="column.key" ng-model="newRowData[column.key]" ng-options="opt as opt.desc for opt in column.comboData"></select>' +
+                 '               <select ng-if="column.dataType === \'fixedCombo\'" class="form-control form-control-sm" name="column.key" ng-model="newRowData[column.key]" ng-options="opt.code as opt.desc for opt in column.comboData"></select>' +
                  '            </th>' +
                  '            <th style="width:8%" scope="col" ng-repeat-end>' +
                  '               <span class="mdi mdi-content-save" ng-click="saveRow(newRowData, true, 0)"></span>' +
@@ -198,7 +202,7 @@ app.directive('datagrid', function($compile) {
                  '            <th scope="col" ng-repeat="column in gridColumns">'  +
                  '               <input ng-if="column.dataType === \'string\'" class="form-control form-control-sm" type="text" name="column.key" ng-model="filter[column.key]">' +
                  '               <input ng-if="column.dataType === \'number\'" class="form-control form-control-sm" type="number" name="column.key" ng-model="filter[column.key]">' +
-                 '               <select ng-if="column.dataType === \'fixedCombo\'" class="form-control form-control-sm" name="column.key" ng-model="filter[column.key]" ng-options="opt as opt.desc for opt in column.comboData"></select>' +
+                 '               <select ng-if="column.dataType === \'fixedCombo\'" class="form-control form-control-sm" name="column.key" ng-model="filter[column.key]" ng-options="opt.code as opt.desc for opt in column.comboData"></select>' +
                  '            </th>' +
                  '            <th style="width:{{editorColumnWidth}}%" scope="col" ng-repeat-end>' +
                  '               &nbsp;&nbsp;&nbsp;&nbsp;'+
@@ -217,7 +221,7 @@ app.directive('datagrid', function($compile) {
                  '            <span ng-show="isRowEdit === false">{{data[column.key]}}</span>' +
                  '            <input ng-if="column.dataType === \'string\'" ng-show="isRowEdit === true" class="form-control form-control-sm" type="text" name="column.key" ng-model="data[column.key]">' +
                  '            <input ng-if="column.dataType === \'number\'" ng-show="isRowEdit === true" class="form-control form-control-sm" type="number" name="column.key" ng-model="data[column.key]">' +
-                 '            <select ng-if="column.dataType === \'fixedCombo\'" ng-show="isRowEdit === true" class="form-control form-control-sm" name="column.key" ng-model="data[column.key]" ng-options="opt as opt.desc for opt in column.comboData"></select>' +
+                 '            <select ng-if="column.dataType === \'fixedCombo\'" ng-show="isRowEdit === true" class="form-control form-control-sm" name="column.key" ng-model="data[column.key]" ng-options="opt.code as opt.desc for opt in column.comboData"></select>' +
                  '         </td>' +
                  '         <td style="width:{{editorColumnWidth}}%" ng-repeat-end>' +
                  '            <span ng-show="isRowEdit === false" class="mdi mdi-table-edit" ng-click="isRowEdit = !isRowEdit"></span>' +

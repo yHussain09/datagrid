@@ -36,7 +36,9 @@ app.controller('appController', function ($scope, dataService) {
   }
 
   
-
+  // $scope.fixedComboCallback = function(selectedValue){
+  //   alert(selectedValue);
+  // }
   
 
   $scope.editRow = function (rowIndex) {
