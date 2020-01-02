@@ -1,12 +1,10 @@
-
-
 app.controller('appController', function ($scope, dataService) {
-  const self = $scope
+  const self = $scope;
 
-  console.log(self)
+  console.log(self);
   console.log(dataService.getData('asadd', 2, 4, {a: 'a'}));
 
-  $scope.search = {}
+  $scope.search = {};
   
   // $scope.sort.columns = [];
 
@@ -33,7 +31,7 @@ app.controller('appController', function ($scope, dataService) {
   $scope.selectedStudents = [];
   $scope.getStudentById = function (id) {
     return $scope.students.id[id]
-  }
+  };
 
   
   // $scope.fixedComboCallback = function(selectedValue){
@@ -42,12 +40,12 @@ app.controller('appController', function ($scope, dataService) {
   
 
   $scope.editRow = function (rowIndex) {
-    console.log(rowIndex)
-  }
+    console.log(rowIndex);
+  };
 
   //   $scope.getSortColumn = function () {
   //      return $scope.sort.column;
   //       // $scope.sort.columns.push(sort);
   //   }
-})
+});
 

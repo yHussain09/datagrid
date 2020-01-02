@@ -22,8 +22,8 @@ app.directive('datagrid', function($compile) {
         self = $scope;
         $scope.sort = {}
         $scope.filter = {}
-        $scope.sort.isSortEnabled = false
-        $scope.sort.column = []
+        $scope.sort.isSortEnabled = false;
+        $scope.sort.column = [];
         $scope.isNewRow = false;
         $scope.isSearchEnabled = false;
         $scope.selectedRow = {};
@@ -35,16 +35,16 @@ app.directive('datagrid', function($compile) {
         $scope.totalPages = Math.floor($scope.totalRecords / $scope.pageSize) + 1;
         $scope.setSortColumn = function (sort) {
           if(!$scope.sort.isSortEnabled) return;
-          $scope.sort.column = sort
+          $scope.sort.column = sort;
           if($scope.sort.reverse){
-            $scope.sort.reverse = false
+            $scope.sort.reverse = false;
           }else{
-            $scope.sort.reverse = !$scope.sort.reverse
+            $scope.sort.reverse = !$scope.sort.reverse;
           }
-          console.log($scope.sort)
+          console.log($scope.sort);
         };
         $scope.getCellValue = function(column, data){
-          console.log(column)
+          console.log(column);
           console.log(data);
         };
         $scope.toggleSort = function(){

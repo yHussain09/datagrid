@@ -57,8 +57,12 @@
   </dataform>
   </div>
   {{selectedFixedComboModelNum}}
+  {{aa}}
+  <!-- change-callback="fixedComboCallback()" -->
   <fixedcombo selected-value="selectedFixedComboModelNum"
-              change-callback="fixedComboCallback()"
+              selected-model="aa"
+              placeholder="Numbers in words"
+              combo-type="P"
               combo-data="[
                             {code: '1', desc: 'One'}, 
                             {code: '2', desc: 'Tow'},
@@ -73,24 +77,25 @@
                             ]">
   </fixedcombo>
   {{selectedFixedComboModelAlpha}}
+  {{bb}}
   <fixedcombo selected-value="selectedFixedComboModelAlpha"
-              change-callback="fixedComboCallback()"
-              filter-value="selectedFixedComboModelNum"
-              filter-key="filterId"
+              placeholder="Alphabets"
+              parent-model="selectedFixedComboModelNum"
+              selected-model="bb"
+              combo-type="C"
               combo-data="[
-                            {filterId: '1', code: 'a', desc: 'A'}, 
-                            {filterId: '2', code: 'b', desc: 'B'},
-                            {filterId: '3', code: 'c', desc: 'C'},
-                            {filterId: '4', code: 'd', desc: 'D'},
-                            {filterId: '5', code: 'e', desc: 'E'},
-                            {filterId: '6', code: 'f', desc: 'F'},
-                            {filterId: '7', code: 'g', desc: 'G'},
-                            {filterId: '8', code: 'h', desc: 'H'},
-                            {filterId: '9', code: 'i', desc: 'I'},
-                            {filterId: '10', code: 'j', desc: 'J'}
+                            { code: 'a', desc: 'A', filterKey: '1'}, 
+                            { code: 'b', desc: 'B', filterKey: '2'},
+                            { code: 'c', desc: 'C', filterKey: '3'},
+                            { code: 'd', desc: 'D', filterKey: '4'},
+                            { code: 'e', desc: 'E', filterKey: '5'},
+                            { code: 'f', desc: 'F', filterKey: '6'},
+                            { code: 'g', desc: 'G', filterKey: '7'},
+                            { code: 'h', desc: 'H', filterKey: '8'},
+                            { code: 'i', desc: 'I', filterKey: '9'},
+                            { code: 'j', desc: 'J', filterKey: '10'}
                             ]">
   </fixedcombo>
-  {{parent-model}}
 </div>
 
   <!-- <div class="card ">
