@@ -1,6 +1,6 @@
 app.service('dataService', function ($http, $q) {
-    const REST_SERVICE_URI = 'localhost:3000/api/v1/';
-    let ds = {
+    // const REST_SERVICE_URI = 'localhost:3000/api/v1/';
+    let dataService = {
         getData: getData,
         postData: postData,
         putData: putData,
@@ -13,11 +13,11 @@ app.service('dataService', function ($http, $q) {
         // loadChildComboData: loadChildComboData,
     };
 
-    return ds;
+    return dataService;
 
     function getData(endPoint, page, size, extra) {
         let deferred = $q.defer();
-        let url = REST_SERVICE_URI + endPoint;
+        let url = app.REST_SERVICE_URI + endPoint;
         if (endPoint.includes('?')) {
             url += "&"
         }
@@ -37,11 +37,11 @@ app.service('dataService', function ($http, $q) {
                 deferred.reject(errResponse);
             });
         return deferred.promise;
-    };
+    }
 
     function postData(endPoint, model) {
         let deferred = $q.defer();
-        let url = REST_SERVICE_URI + endPoint;
+        let url = app.REST_SERVICE_URI + endPoint;
         $http.post(url, model).then(
             function (response) {
                 deferred.resolve(response.data);
@@ -51,11 +51,11 @@ app.service('dataService', function ($http, $q) {
                 deferred.reject(errResponse);
             });
         return deferred.promise;
-    };
+    }
 
     function putData(endPoint, model) {
         let deferred = $q.defer();
-        let url = REST_SERVICE_URI + endPoint;
+        let url = app.REST_SERVICE_URI + endPoint;
         $http.put(url, model).then(
             function (response) {
                 deferred.resolve(response.data);
@@ -64,11 +64,11 @@ app.service('dataService', function ($http, $q) {
                 deferred.reject(errResponse);
             });
         return deferred.promise;
-    };
+    }
 
     function deleteData(endPoint, key) {
         let deferred = $q.defer();
-        let url = REST_SERVICE_URI + endPoint;
+        let url = app.REST_SERVICE_URI + endPoint;
         $http({
             method: 'DELETE',
             url: url,
@@ -84,21 +84,21 @@ app.service('dataService', function ($http, $q) {
                 deferred.reject(errResponse);
             });
         return deferred.promise;
-    };
+    }
 
     function getAll() {
         return 'getAll function called...';
-    };
+    }
     function getByID() {
         return 'getByID function called...';
-    };
+    }
     function loadGridData() {
         return 'deleteData function called...';
-    };
+    }
     function loadGridDataPage() {
         return 'getAll function called...';
-    };
+    }
     function loadComboData() {
         return 'getByID function called...';
-    };
+    }
 });

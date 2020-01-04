@@ -7,6 +7,7 @@ app.directive('datagrid', function($compile) {
         showBorder: '=?',
         gridRowModel: "=?",
         selectable: '=?',
+        editable: '=?',
         editorColumnWidth: '=?',
         gridSelectedRows: '=?',
         pageSize: '=?',
@@ -32,6 +33,7 @@ app.directive('datagrid', function($compile) {
         $scope.currentPage = 0;
         $scope.totalRecords = 18;
         if(!$scope.pageSize)$scope.pageSize = 5;
+        if(!$scope.editable)$scope.editable = false;
         $scope.totalPages = Math.floor($scope.totalRecords / $scope.pageSize) + 1;
         $scope.setSortColumn = function (sort) {
           if(!$scope.sort.isSortEnabled) return;
@@ -64,6 +66,7 @@ app.directive('datagrid', function($compile) {
 
         };
         $scope.deleteRow = function(index){
+          $scope.toast();
           $scope.gridData.splice(index, 1);
         };
         $scope.addNewRow = function(){
@@ -181,7 +184,7 @@ app.directive('datagrid', function($compile) {
                  '               </span>' +
                  '            </th>' +
                  '            <th style="width:8%" scope="col" ng-repeat-end>' +
-                 '               <span class="mdi mdi-plus-box" ng-click="addNewRow()"></span>' +
+                 '               <span ng-if="editable" class="mdi mdi-plus-box" ng-click="addNewRow()"></span>' +
                  '               &nbsp;&nbsp;'+
                  '               <span ng-class="(isSearchEnabled === true) ? \'mdi mdi-dark mdi-magnify\' : \'mdi mdi-dark mdi-inactive mdi-magnify\'" ng-click="toggleSearch()"></span>' +
                  '               &nbsp;&nbsp;' +
@@ -226,9 +229,9 @@ app.directive('datagrid', function($compile) {
                  '            <select ng-if="column.dataType === \'fixedCombo\'" ng-show="isRowEdit === true" class="form-control form-control-sm" name="column.key" ng-model="data[column.key]" ng-options="opt.code as opt.desc for opt in column.comboData"></select>' +
                  '         </td>' +
                  '         <td style="width:{{editorColumnWidth}}%" ng-repeat-end>' +
-                 '            <span ng-show="isRowEdit === false" class="mdi mdi-table-edit" ng-click="isRowEdit = !isRowEdit"></span>' +
+                 '            <span ng-show="isRowEdit === false && editable === true" class="mdi mdi-table-edit" ng-click="isRowEdit = !isRowEdit"></span>' +
                  '             &nbsp;&nbsp;' +
-                 '            <span ng-show="isRowEdit === false" class="mdi mdi-delete" ng-click="deleteRow($index)"></span>' +
+                 '            <span ng-show="isRowEdit === false && editable === true" class="mdi mdi-delete" ng-click="deleteRow($index)"></span>' +
                  '            <span ng-show="isRowEdit === true" class="mdi mdi-content-save" ng-click="saveRow(data, false, $index, isRowEdit)"></span>' +
                  '             &nbsp;&nbsp;' +
                  '            <span ng-show="isRowEdit === true" class="mdi mdi-window-close" ng-click="isRowEdit = !isRowEdit"></span>' +
